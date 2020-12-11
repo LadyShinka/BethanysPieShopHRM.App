@@ -3,29 +3,33 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BethanysPieShopHRM.Shared;
-
+using Microsoft.AspNetCore.Components;
 
 namespace BethanysPieShopHRM.App.Pages
 {
-    public partial class EmployeeOverview
+    public partial class EmployeeDetail
     {
-		public IEnumerable<Employee> Employees { get; set; }
+		[Parameter]
+		public string EmployeeId { get; set; }
 
-		private List<Country> Countries { get; set; }
+		public Employee Employee { get; set; } = new Employee();
 
-		private List<JobCategory> JobCategories { get; set; }
-
-        //public string EmployeeId { get; private set; }
-
-        protected override Task OnInitializedAsync()
+		protected override Task OnInitializedAsync()
 		{
 
 			InitializeCountries();
 			InitializeJobCategories();
 			InitializeEmployees();
+			Employee = Employees.FirstOrDefault(e => e.EmployeeId == int.Parse(EmployeeId));
 
 			return base.OnInitializedAsync();
 		}
+
+		public IEnumerable<Employee> Employees { get; set; }
+
+		private List<Country> Countries { get; set; }
+
+		private List<JobCategory> JobCategories { get; set; }
 
 		private void InitializeJobCategories()
 		{
