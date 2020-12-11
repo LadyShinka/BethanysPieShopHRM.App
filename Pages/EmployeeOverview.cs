@@ -3,7 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BethanysPieShopHRM.Shared;
-
+using System.Net.Http;
+using Microsoft.AspNetCore.Components;
 
 namespace BethanysPieShopHRM.App.Pages
 {
@@ -15,11 +16,12 @@ namespace BethanysPieShopHRM.App.Pages
 
 		private List<JobCategory> JobCategories { get; set; }
 
-        //public string EmployeeId { get; private set; }
+        [Inject]
+		public HttpClient HttpClient { get; set; } 
 
         protected override Task OnInitializedAsync()
 		{
-
+			var data = await HttpClient.GetFromJsonAsync<List<Employees>>("http://localhost:44340/api/Employee");
 			InitializeCountries();
 			InitializeJobCategories();
 			InitializeEmployees();
